@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Test automation</title>
+</head>
+<body>
+    <label for="q">Text:</label>
+    <input type="text" id="q" name="q"><br>
+    <button id="btnSearch" onClick="search(document.getElementById('q').value)">Search</button>
+    <table id="table"></table>
+    <script>
+        function search(q) {
+            fetch(`http://localhost:58979/text?q=${q}`)
+                .then(response => {
+                    if (response.ok) {
+                        response.json()
+                            .then(data => { updateTable(data); });
+                    }
+                });
+        }
+
+        function updateTable(data) {
+            const table = document.getElementById('table');
+            table.innerHTML = '';
+            for (let article of data) {
+                const row = table.insertRow();
+                let cell = row.insertCell();
+                let text = document.createTextNode(article.id);
+                cell.appendChild(text);
+
+                cell = row.insertCell();
+                text = document.createTextNode(new Date(article.creationDate).toLocaleDateString());
+                cell.appendChild(text);
+
+                cell = row.insertCell();
+                text = document.createTextNode(`${article.text.substring(0, 50)}...`);
+                cell.appendChild(text);
+            }
+        }
+    </script>
+</body>
+</html>
