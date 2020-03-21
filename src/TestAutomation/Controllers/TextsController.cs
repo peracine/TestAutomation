@@ -8,11 +8,11 @@ namespace TestAutomation.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TextController : ControllerBase
+    public class TextsController : ControllerBase
     {
         private readonly ITextServices _textServices;
 
-        public TextController(ITextServices textServices)
+        public TextsController(ITextServices textServices)
         {
             _textServices = textServices;
         }

@@ -1,0 +1,9 @@
+{
+  "consumerName":  "Consumer",
+  "logDir": "Logs",
+  "pactDir": "Pacts",
+  "mockProviderServerPort": 9222,
+  "mockProviderServerBaseUrl": "http://localhost:9222",
+  "applicationPath": "",
+  "applicationUrl": "http://localhost:5000"
+}

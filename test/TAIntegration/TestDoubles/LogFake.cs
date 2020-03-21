@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using TestAutomation.Interfaces;
 
-namespace TAIntegration.Tests.Stubs
+namespace TAIntegration.Tests.TestDoubles
 {
-    class LogStub : ILog
+    class LogFake : ILog
     {
         public async Task WriteAsync(string text) =>
-            await Task.Run(() => Debug.WriteLine($"LogStub.WriteAsync('{text}') called."));
+            await Task.Run(() => Debug.WriteLine($"LogFake.WriteAsync('{text}') called."));
     }
 }

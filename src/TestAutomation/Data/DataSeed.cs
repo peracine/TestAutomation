@@ -1,8 +1,9 @@
 ﻿using System;
+using TestAutomation.Models;
 
 namespace TestAutomation.Data
 {
-    public class DataMock
+    public class DataSeed
     {
         public static string[] ListTexts()
         {
@@ -14,6 +15,10 @@ namespace TestAutomation.Data
                 "Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede. Ut orci risus, accumsan porttitor, cursus quis, aliquet eget, justo. Sed pretium blandit orci."
             };
         }
+
+        public static Article GetFirstArticle() =>
+            new Article() { Id = 1, Text = "test", CreationDate = DateTime.MinValue };
+
 
         public static string GetRandomText()
         {

@@ -12,6 +12,9 @@ namespace TestAutomation.Services
 
         public async Task WriteAsync(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                throw new ArgumentNullException("'text' parameter cannot be null or empty.");
+
             using (var streamWriter = new StreamWriter(LogFile, true))
             {
                 await streamWriter.WriteLineAsync($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}: {text}");

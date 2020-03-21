@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using TestAutomation.Interfaces;
 using TestAutomation.Models;
 
 namespace TestAutomation.Data
@@ -18,9 +17,10 @@ namespace TestAutomation.Data
         {
             //Seed
             var articles = new List<Article>();
-            for (int i = 0; i < 1000; i++)
+            articles.Add(DataSeed.GetFirstArticle());
+            for (int i = 2; i <= 1000; i++)
             {
-                articles.Add(new Article() { Id = i + 1, Text = DataMock.GetRandomText() });
+                articles.Add(new Article() { Id = i, Text = DataSeed.GetRandomText() });
             }
 
             modelBuilder.Entity<Article>().HasData(articles);

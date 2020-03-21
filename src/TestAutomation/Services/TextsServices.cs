@@ -5,12 +5,12 @@ using TestAutomation.Models;
 
 namespace TestAutomation.Services
 {
-    public class TextServices : ITextServices
+    public class TextsServices : ITextServices
     {
         private readonly ITextRepository _textRepository;
         private readonly ILog _log;
 
-        public TextServices(ITextRepository textRepository, ILog log)
+        public TextsServices(ITextRepository textRepository, ILog log)
         {
             _textRepository = textRepository;
             _log = log;
