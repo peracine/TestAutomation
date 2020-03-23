@@ -4,27 +4,29 @@ using PactNet.Mocks.MockHttpService.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TestAutomation.Data;
+using TestAutomation.Models;
 using Xunit;
 
 namespace TAContract.Tests
 {
     [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests")]
-    public class Texts_GET : IClassFixture<TestContractClassFixture>, IDisposable
+    public class Texts_GET_Tests : IClassFixture<TestContractClassFixture>, IDisposable, IContractTest
     {
-        private TestContractClassFixture _consumerPactClassFixture;
+        private readonly TestContractClassFixture _consumerPactClassFixture;
         private const HttpVerb _httpVerb = HttpVerb.Get;
         private string _path = $"/Texts/{DataSeed.GetFirstArticle().Id}";
-        private IPactBuilder _pactBuilder;
-        private IMockProviderService _mockProviderService;
+        private readonly IPactBuilder _pactBuilder;
+        private readonly IMockProviderService _mockProviderService;
         private bool _pactFileGenerated;
 
-        public Texts_GET(TestContractClassFixture consumerPactClassFixture)
+        public Texts_GET_Tests(TestContractClassFixture consumerPactClassFixture)
         {
             _consumerPactClassFixture = consumerPactClassFixture;
             _pactBuilder = _consumerPactClassFixture.GetPactBuilder(_httpVerb, _path);
-            _mockProviderService = _consumerPactClassFixture.SetMockService(_pactBuilder);
+            _mockProviderService = _pactBuilder.GetMockProviderService();
         }
 
         [Fact]
@@ -45,14 +47,16 @@ namespace TAContract.Tests
                     Headers = new Dictionary<string, object> { { "Content-Type", "application/json; charset=utf-8" } },
                     Body = firstArticle
                 });
-           await _consumerPactClassFixture.GetAsync(_path);
+            
+            var result = await _consumerPactClassFixture.GetAsync(_path);
+
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            JsonSerializer.Deserialize<Article>(await result.Content.ReadAsStringAsync());
         }
 
         [Fact]
-        public void Provider()
-        {
+        public void Provider() =>
             _consumerPactClassFixture.PactVerifier(_httpVerb, _path);
-        }
 
         public void Dispose()
         {

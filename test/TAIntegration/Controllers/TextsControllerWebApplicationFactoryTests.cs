@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -12,13 +13,13 @@ using TestAutomation.Data;
 using TestAutomation.Models;
 using Xunit;
 
-namespace TAIntegration.Tests.Controllers
+namespace TAIntegration.Tests
 {
-    public class TextsControllerWebApplicationFactoryTest : IClassFixture<TestAutomationFactory<Startup>>
+    public class TextsControllerWebApplicationFactoryTests : IClassFixture<TestAutomationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
-        public TextsControllerWebApplicationFactoryTest(TestAutomationFactory<Startup> testAutomationFactory)
+        public TextsControllerWebApplicationFactoryTests(TestAutomationFactory<Startup> testAutomationFactory)
         {
             _client = testAutomationFactory.CreateClient();
         }
@@ -33,7 +34,7 @@ namespace TAIntegration.Tests.Controllers
             var content = await result.Content.ReadAsStringAsync();
             var articles = JsonSerializer.Deserialize<IEnumerable<Article>>(content, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            Assert.True(result.StatusCode == System.Net.HttpStatusCode.OK);
+            Assert.True(result.StatusCode == HttpStatusCode.OK);
             Assert.NotEmpty(articles);
         }
 
@@ -47,7 +48,7 @@ namespace TAIntegration.Tests.Controllers
             var content = await result.Content.ReadAsStringAsync();
             var article = JsonSerializer.Deserialize<Article>(content, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-            Assert.True(result.StatusCode == System.Net.HttpStatusCode.Created);
+            Assert.True(result.StatusCode == HttpStatusCode.Created);
             Assert.Equal(text, article.Text);
         }
     }

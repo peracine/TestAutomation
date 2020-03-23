@@ -7,13 +7,13 @@ using Xunit;
 
 namespace TAUnit.Tests
 {
-    public class TextsServicesTest
+    public class TextsServicesTests
     {
         private readonly TextsServices _textServices;
         private bool LogCalled { get; set; }
         private const string _testText = "Test text.";
 
-        public TextsServicesTest()
+        public TextsServicesTests()
         {
             var textRepository = new Mock<ITextRepository>(MockBehavior.Strict);
             textRepository.Setup(repo => repo.AddArticleAsync(It.IsAny<Article>()))
@@ -36,7 +36,7 @@ namespace TAUnit.Tests
         }
 
         [Fact]
-        public async void GetArticle_SetText_ReturnsArticle()
+        public async void AddArticle_SetText_ReturnsArticle()
         {
             var result = await _textServices.AddArticleAsync(new Article() { Text = _testText });
 
@@ -44,7 +44,7 @@ namespace TAUnit.Tests
         }
 
         [Fact]
-        public async void GetArticle_CheckIfLogIsCalled_ReturnsVoid()
+        public async void AddArticle_CheckIfLogIsCalled_ReturnsVoid()
         {
             LogCalled = false;
 

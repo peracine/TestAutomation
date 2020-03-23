@@ -5,26 +5,28 @@ using PactNet.Mocks.MockHttpService.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
+using TestAutomation.Models;
 using Xunit;
 
 namespace TAContract.Tests
 {
     [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests")]
-    public class Texts_POST : IClassFixture<TestContractClassFixture>, IDisposable
+    public class Texts_POST_Tests : IClassFixture<TestContractClassFixture>, IDisposable, IContractTest
     {
-        private TestContractClassFixture _consumerPactClassFixture;
+        private readonly TestContractClassFixture _consumerPactClassFixture;
         private const HttpVerb _httpVerb = HttpVerb.Post;
         private const string _path = "/Texts";
-        private IPactBuilder _pactBuilder;
-        private IMockProviderService _mockProviderService;
+        private readonly IPactBuilder _pactBuilder;
+        private readonly IMockProviderService _mockProviderService;
         private bool _pactFileGenerated;
 
-        public Texts_POST(TestContractClassFixture consumerPactClassFixture)
+        public Texts_POST_Tests(TestContractClassFixture consumerPactClassFixture)
         {
             _consumerPactClassFixture = consumerPactClassFixture;
             _pactBuilder = _consumerPactClassFixture.GetPactBuilder(_httpVerb, _path);
-            _mockProviderService = _consumerPactClassFixture.SetMockService(_pactBuilder);
+            _mockProviderService = _pactBuilder.GetMockProviderService();
         }
 
         [Fact]
@@ -45,17 +47,18 @@ namespace TAContract.Tests
                 {
                     Status = (int)HttpStatusCode.Created,
                     Headers = new Dictionary<string, object> { { "Content-Type", "application/json; charset=utf-8" } },
-                    Body = new { id = Match.Type(1), creationDate = Match.Type(DateTime.Now), text = article.text }
+                    Body = new { id = Match.Type(1), creationDate = Match.Type(DateTime.Now), article.text }
                 });
 
-            await _consumerPactClassFixture.PostAsync(_path, article);
+            var result = await _consumerPactClassFixture.PostAsync(_path, article);
+
+            Assert.Equal(HttpStatusCode.Created, result.StatusCode);
+            JsonSerializer.Deserialize<Article>(await result.Content.ReadAsStringAsync());
         }
 
         [Fact]
-        public void Provider()
-        {
+        public void Provider() =>
             _consumerPactClassFixture.PactVerifier(_httpVerb, _path);
-        }
 
         public void Dispose()
         {

@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using PactNet;
-using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using System;
 using System.Diagnostics;
@@ -22,11 +20,11 @@ namespace TAContract.Tests
 
         public TestContractClassFixture()
         {
-            _client = new HttpClient();
             _configuration = new Configuration();
             _applicationProcess = new Process();
             _applicationProcess.StartInfo.FileName = _configuration.ApplicationPath;
-            _applicationProcess.Start();            
+            _applicationProcess.Start();
+            _client = new HttpClient();
         }
 
         public IPactBuilder GetPactBuilder(HttpVerb httpVerb, string path)
@@ -47,21 +45,8 @@ namespace TAContract.Tests
             return pactBuilder;
         }
 
-        public IMockProviderService SetMockService(IPactBuilder pactBuilder)
-        {
-            var mockService = pactBuilder.MockService(
-                    _configuration.MockProviderServerPort,
-                    new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-            mockService.ClearInteractions();
-            return mockService;
-        }
-
-        private string GetProviderName(HttpVerb verb, string path)
-        {
-            path = string.Join('_', path.Split('/', StringSplitOptions.RemoveEmptyEntries));
-            return verb.ToString() + "_" + path;
-        }
+        private string GetProviderName(HttpVerb verb, string path) =>
+            $"{path.Replace("/", string.Empty)}_{verb.ToString()}";
 
         public async Task<HttpResponseMessage> GetAsync(string endPoint) =>
             await _client.GetAsync(_configuration.MockProviderServerBaseUrl + endPoint);
@@ -69,7 +54,7 @@ namespace TAContract.Tests
         public async Task<HttpResponseMessage> PostAsync(string endPoint, object content)
         {
             var httpContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, MediaTypeNames.Application.Json);
-            return await _client.PostAsync(_configuration.MockProviderServerBaseUrl + "/" + endPoint, httpContent);
+            return await _client.PostAsync(_configuration.MockProviderServerBaseUrl + endPoint, httpContent);
         }
 
         public void PactVerifier(HttpVerb verb, string path)
@@ -77,7 +62,7 @@ namespace TAContract.Tests
             new PactVerifier(new PactVerifierConfig())
                 .ServiceProvider(path, _configuration.ApplicationUrl)
                 .HonoursPactWith(_configuration.ConsumerName)
-                .PactUri(Path.Combine(_configuration.PactDir, _configuration.ConsumerName + "-" + GetProviderName(verb, path) + ".json"))
+                .PactUri(Path.Combine(_configuration.PactDir, $"{_configuration.ConsumerName}-{GetProviderName(verb, path)}.json"))
                 .Verify();
         }
 

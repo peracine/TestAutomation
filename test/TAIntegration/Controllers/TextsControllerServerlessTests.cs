@@ -11,12 +11,12 @@ using Xunit;
 
 namespace TAIntegration.Tests
 {
-    public class TextsControllerServerlessTest
+    public class TextsControllerServerlessTests
     {
         private readonly string _sqliteConnexionString;
         private const string _text = "Test text.";
 
-        public TextsControllerServerlessTest()
+        public TextsControllerServerlessTests()
         {
             var sqliteConnectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
             _sqliteConnexionString = sqliteConnectionStringBuilder.ToString();

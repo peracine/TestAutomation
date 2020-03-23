@@ -8,7 +8,7 @@ using Xunit;
 
 namespace TAUnit.Tests
 {
-    public class TextsControllerTest
+    public class TextsControllerTests
     {
         [Fact]
         public async Task List_TestByUsingMoq_ReturnsArticles()
