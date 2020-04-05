@@ -20,7 +20,7 @@ namespace TAContract.Tests
         private string _path = $"/Texts/{DataSeed.GetFirstArticle().Id}";
         private readonly IPactBuilder _pactBuilder;
         private readonly IMockProviderService _mockProviderService;
-        private bool _pactFileGenerated;
+        private bool _isDisposed;
 
         public Texts_GET_Tests(TestContractClassFixture consumerPactClassFixture)
         {
@@ -60,10 +60,16 @@ namespace TAContract.Tests
 
         public void Dispose()
         {
-            if (_pactBuilder != null && !_pactFileGenerated)
-            {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !_isDisposed)
+            { 
                 _pactBuilder.Build();
-                _pactFileGenerated = true;
+                _isDisposed = true;
             }
         }
     }

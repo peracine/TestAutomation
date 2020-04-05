@@ -25,55 +25,43 @@ namespace TAIntegration.Tests
         [Fact]
         public async Task Add_NewArticleCheckResultWithFake_ReturnsArticle()
         {
-            using (var connection = new SqliteConnection(_sqliteConnexionString))
-            {
-                connection.Open();
-                using (var context = GetContext(connection))
-                {
-                    var textController = new TextsController(new TextsServices(new TextRepository(context), new LogFake()));
+            using var connection = new SqliteConnection(_sqliteConnexionString);
+            connection.Open();
+            using var context = GetContext(connection);
+            var textController = new TextsController(new TextsServices(new TextRepository(context), new LogFake()));
 
-                    var actionResultArticle = await textController.Add(new Article() { Text = _text });
+            var actionResultArticle = await textController.Add(new Article() { Text = _text });
 
-                    Assert.IsType<CreatedAtActionResult>(actionResultArticle.Result);
-                    Assert.IsType<Article>((actionResultArticle.Result as CreatedAtActionResult).Value);
-                }
-            }
+            Assert.IsType<CreatedAtActionResult>(actionResultArticle.Result);
+            Assert.IsType<Article>((actionResultArticle.Result as CreatedAtActionResult).Value);
         }
 
         [Fact]
         public async Task Add_NewArticleCheckResultWithMock_ReturnsArticle()
         {
-            using (var connection = new SqliteConnection(_sqliteConnexionString))
-            {
-                connection.Open();
-                using (var context = GetContext(connection))
-                {
-                    var textController = new TextsController(new TextsServices(new TextRepository(context), LogMockFactory.GetLogMock()));
+            using var connection = new SqliteConnection(_sqliteConnexionString);
+            connection.Open();
+            using var context = GetContext(connection);
+            var textController = new TextsController(new TextsServices(new TextRepository(context), LogMockFactory.GetLogMock()));
 
-                    var actionResultArticle = await textController.Add(new Article() { Text = _text });
+            var actionResultArticle = await textController.Add(new Article() { Text = _text });
 
-                    Assert.IsType<CreatedAtActionResult>(actionResultArticle.Result);
-                    Assert.IsType<Article>((actionResultArticle.Result as CreatedAtActionResult).Value);
-                }
-            }
+            Assert.IsType<CreatedAtActionResult>(actionResultArticle.Result);
+            Assert.IsType<Article>((actionResultArticle.Result as CreatedAtActionResult).Value);
         }
 
         [Fact]
         public async Task Add_NewArticleCheckLog_ReturnsTrue()
         {
-            using (var connection = new SqliteConnection(_sqliteConnexionString))
-            {
-                connection.Open();
-                using (var context = GetContext(connection))
-                {
-                    var logSpy = new LogSpy(false);
-                    var textController = new TextsController(new TextsServices(new TextRepository(context), logSpy));
+            using var connection = new SqliteConnection(_sqliteConnexionString);
+            connection.Open();
+            using var context = GetContext(connection);
+            var logSpy = new LogSpy(false);
+            var textController = new TextsController(new TextsServices(new TextRepository(context), logSpy));
 
-                    var actionResultArticle = await textController.Add(new Article() { Text = _text });
+            var actionResultArticle = await textController.Add(new Article() { Text = _text });
 
-                    Assert.True(logSpy.LogCalled);
-                }
-            }
+            Assert.True(logSpy.LogCalled);
         }
 
         private TestAutomationContext GetContext(SqliteConnection sqliteConnection)

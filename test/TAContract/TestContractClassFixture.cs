@@ -17,6 +17,7 @@ namespace TAContract.Tests
         private readonly HttpClient _client;
         private readonly Configuration _configuration;
         private readonly Process _applicationProcess;
+        private bool _isDisposed;
 
         public TestContractClassFixture()
         {
@@ -46,7 +47,7 @@ namespace TAContract.Tests
         }
 
         private string GetProviderName(HttpVerb verb, string path) =>
-            $"{path.Replace("/", string.Empty)}_{verb.ToString()}";
+            $"{path.Replace("/", string.Empty)}_{verb}";
 
         public async Task<HttpResponseMessage> GetAsync(string endPoint) =>
             await _client.GetAsync(_configuration.MockProviderServerBaseUrl + endPoint);
@@ -68,11 +69,22 @@ namespace TAContract.Tests
 
         public void Dispose()
         {
-            if (_client != null)
-                _client.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            if (_applicationProcess != null)
-                _applicationProcess.Kill();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !_isDisposed)
+            {
+                if (_client != null)
+                    _client.Dispose();
+
+                if (_applicationProcess != null)
+                    _applicationProcess.Kill();
+
+                _isDisposed = true;
+            }
         }
     }
 }
