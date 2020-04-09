@@ -16,8 +16,8 @@ namespace TestAutomation
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TestAutomationContext>(opt => opt.UseInMemoryDatabase("TestAutomation"));
-            services.AddScoped<ITextRepository, TextRepository>();
-            services.AddScoped<ITextServices, TextsServices>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IArticleServices, ArticleServices>();
             services.AddScoped<ILog, Log>();
             
             services.AddCors(options =>

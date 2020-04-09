@@ -4,7 +4,7 @@ using TestAutomation.Models;
 
 namespace TestAutomation.Interfaces
 {
-    public interface ITextServices
+    public interface IArticleServices
     {
         string Uppercase(string text);
         Task<Article> GetArticletAsync(int id);

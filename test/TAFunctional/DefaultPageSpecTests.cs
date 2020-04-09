@@ -27,7 +27,7 @@ namespace TAFunctional.Tests
 
             Because of = () =>
                 has_result = new WebDriverWait(subject, Configuration.TimeOut)
-                    .Until(wd => wd.FindElement(By.Id("table")).Text.Contains("Lorem"));
+                    .Until(wd => wd.FindElement(By.Id("table")).Text.Contains(q));
 
             It should_have_elements = () =>
                 has_result.ShouldBeTrue();

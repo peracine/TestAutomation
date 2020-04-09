@@ -8,11 +8,11 @@ using TestAutomation.Models;
 
 namespace TestAutomation.Data
 {
-    public class TextRepository : ITextRepository
+    public class ArticleRepository : IArticleRepository
     {
         private readonly TestAutomationContext _context;
 
-        public TextRepository(TestAutomationContext context)
+        public ArticleRepository(TestAutomationContext context)
         {
             _context = context ?? throw new InvalidOperationException("context cannot be null.");
         }

@@ -1,4 +1,5 @@
 ﻿using PactNet;
+using PactNet.Matchers;
 using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using System;
@@ -6,23 +7,22 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TestAutomation.Data;
 using TestAutomation.Models;
 using Xunit;
 
 namespace TAContract.Tests
 {
     [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests"), Collection("ContractTest")]
-    public class Texts_GET_Tests : IClassFixture<TestContractClassFixture>, IDisposable, IContractTest
+    public class Articles_POST_Tests : IClassFixture<TestContractClassFixture>, IDisposable, IContractTest
     {
         private readonly TestContractClassFixture _consumerPactClassFixture;
-        private const HttpVerb _httpVerb = HttpVerb.Get;
-        private readonly string _path = $"/Texts/{DataSeed.GetFirstArticle().Id}";
+        private const HttpVerb _httpVerb = HttpVerb.Post;
+        private const string _path = "/Articles";
         private readonly IPactBuilder _pactBuilder;
         private readonly IMockProviderService _mockProviderService;
         private bool _isDisposed;
 
-        public Texts_GET_Tests(TestContractClassFixture consumerPactClassFixture)
+        public Articles_POST_Tests(TestContractClassFixture consumerPactClassFixture)
         {
             _consumerPactClassFixture = consumerPactClassFixture;
             _pactBuilder = _consumerPactClassFixture.GetPactBuilder(_httpVerb, _path);
@@ -32,25 +32,27 @@ namespace TAContract.Tests
         [Fact]
         public async Task Consumer()
         {
-            var firstArticle = DataSeed.GetFirstArticle();
+            var article = new { text = "Test pact" };
             _mockProviderService
-                .Given("Existing article id")
-                .UponReceiving("Valid GET Text")
+                .Given("New article")
+                .UponReceiving("Valid POST Article object")
                 .With(new ProviderServiceRequest
                 {
-                   Method = HttpVerb.Get,
-                   Path = _path,
+                    Method = HttpVerb.Post,
+                    Path = _path,
+                    Body = article,
+                    Headers = new Dictionary<string, object> { { "Content-Type", "application/json; charset=utf-8" } },
                 })
                 .WillRespondWith(new ProviderServiceResponse
                 {
-                    Status = (int)HttpStatusCode.OK,
+                    Status = (int)HttpStatusCode.Created,
                     Headers = new Dictionary<string, object> { { "Content-Type", "application/json; charset=utf-8" } },
-                    Body = firstArticle
+                    Body = new { id = Match.Type(1), creationDate = Match.Type(DateTime.Now), article.text }
                 });
-            
-            var result = await _consumerPactClassFixture.GetAsync(_path);
 
-            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            var result = await _consumerPactClassFixture.PostAsync(_path, article);
+
+            Assert.Equal(HttpStatusCode.Created, result.StatusCode);
             JsonSerializer.Deserialize<Article>(await result.Content.ReadAsStringAsync());
         }
 
@@ -67,7 +69,7 @@ namespace TAContract.Tests
         protected virtual void Dispose(bool disposing)
         {
             if (disposing && !_isDisposed)
-            { 
+            {
                 _pactBuilder.Build();
                 _isDisposed = true;
             }

@@ -15,11 +15,11 @@ using Xunit;
 
 namespace TAIntegration.Tests
 {
-    public class TextsControllerWebApplicationFactoryTests : IClassFixture<TestAutomationFactory<Startup>>
+    public class ArticlesControllerWebApplicationFactoryTests : IClassFixture<TestAutomationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
-        public TextsControllerWebApplicationFactoryTests(TestAutomationFactory<Startup> testAutomationFactory)
+        public ArticlesControllerWebApplicationFactoryTests(TestAutomationFactory<Startup> testAutomationFactory)
         {
             _client = testAutomationFactory.CreateClient();
         }
@@ -30,7 +30,7 @@ namespace TAIntegration.Tests
             var allWords = string.Join(" ", DataSeed.ListTexts()).Split(" ", StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
             string text = allWords[new Random().Next(0, allWords.Length - 1)];
 
-            var result = await _client.GetAsync($"Texts?q={text}");
+            var result = await _client.GetAsync($"Articles?q={text}");
             var content = await result.Content.ReadAsStringAsync();
             var articles = JsonSerializer.Deserialize<IEnumerable<Article>>(content, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
@@ -44,7 +44,7 @@ namespace TAIntegration.Tests
             string text = "Test text.";
             var httpContent = new StringContent(JsonSerializer.Serialize(new Article() { Text = text }), Encoding.UTF8, MediaTypeNames.Application.Json);
 
-            var result = await _client.PostAsync("Texts", httpContent);
+            var result = await _client.PostAsync("Articles", httpContent);
             var content = await result.Content.ReadAsStringAsync();
             var article = JsonSerializer.Deserialize<Article>(content, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 

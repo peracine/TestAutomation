@@ -8,19 +8,19 @@ namespace TestAutomation.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TextsController : ControllerBase
+    public class ArticlesController : ControllerBase
     {
-        private readonly ITextServices _textServices;
+        private readonly IArticleServices _articleServices;
 
-        public TextsController(ITextServices textServices)
+        public ArticlesController(IArticleServices articleServices)
         {
-            _textServices = textServices;
+            _articleServices = articleServices;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> Get(int id)
         {
-            var article = await _textServices.GetArticletAsync(id);
+            var article = await _articleServices.GetArticletAsync(id);
             if (article == null)
                 return NotFound();
 
@@ -29,12 +29,12 @@ namespace TestAutomation.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<Article>> List(string q = null) =>
-            await _textServices.ListArticlesAsync(q);
+            await _articleServices.ListArticlesAsync(q);
 
         [HttpPost]
         public async Task<ActionResult<Article>> Add([FromBody] Article article)
         {
-            var newArticle = await _textServices.AddArticleAsync(article);
+            var newArticle = await _articleServices.AddArticleAsync(article);
             if (newArticle == null)
                 return BadRequest();
 

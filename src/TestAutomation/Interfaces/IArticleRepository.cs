@@ -4,7 +4,7 @@ using TestAutomation.Models;
 
 namespace TestAutomation.Interfaces
 {
-    public interface ITextRepository
+    public interface IArticleRepository
     {
         Task<Article> GetArticletAsync(int id);
         Task<IEnumerable<Article>> ListArticlesAsync(string text = null);

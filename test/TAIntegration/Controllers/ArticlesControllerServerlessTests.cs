@@ -11,12 +11,12 @@ using Xunit;
 
 namespace TAIntegration.Tests
 {
-    public class TextsControllerServerlessTests
+    public class ArticlesControllerServerlessTests
     {
         private readonly string _sqliteConnexionString;
         private const string _text = "Test text.";
 
-        public TextsControllerServerlessTests()
+        public ArticlesControllerServerlessTests()
         {
             var sqliteConnectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
             _sqliteConnexionString = sqliteConnectionStringBuilder.ToString();
@@ -28,9 +28,9 @@ namespace TAIntegration.Tests
             using var connection = new SqliteConnection(_sqliteConnexionString);
             connection.Open();
             using var context = GetContext(connection);
-            var textController = new TextsController(new TextsServices(new TextRepository(context), new LogFake()));
+            var articleController = new ArticlesController(new ArticleServices(new ArticleRepository(context), new LogFake()));
 
-            var actionResultArticle = await textController.Add(new Article() { Text = _text });
+            var actionResultArticle = await articleController.Add(new Article() { Text = _text });
 
             Assert.IsType<CreatedAtActionResult>(actionResultArticle.Result);
             Assert.IsType<Article>((actionResultArticle.Result as CreatedAtActionResult).Value);
@@ -42,9 +42,9 @@ namespace TAIntegration.Tests
             using var connection = new SqliteConnection(_sqliteConnexionString);
             connection.Open();
             using var context = GetContext(connection);
-            var textController = new TextsController(new TextsServices(new TextRepository(context), LogMockFactory.GetLogMock()));
+            var articleController = new ArticlesController(new ArticleServices(new ArticleRepository(context), LogMockFactory.GetLogMock()));
 
-            var actionResultArticle = await textController.Add(new Article() { Text = _text });
+            var actionResultArticle = await articleController.Add(new Article() { Text = _text });
 
             Assert.IsType<CreatedAtActionResult>(actionResultArticle.Result);
             Assert.IsType<Article>((actionResultArticle.Result as CreatedAtActionResult).Value);
@@ -57,9 +57,9 @@ namespace TAIntegration.Tests
             connection.Open();
             using var context = GetContext(connection);
             var logSpy = new LogSpy(false);
-            var textController = new TextsController(new TextsServices(new TextRepository(context), logSpy));
+            var articleController = new ArticlesController(new ArticleServices(new ArticleRepository(context), logSpy));
 
-            var actionResultArticle = await textController.Add(new Article() { Text = _text });
+            var actionResultArticle = await articleController.Add(new Article() { Text = _text });
 
             Assert.True(logSpy.LogCalled);
         }

@@ -5,14 +5,14 @@ using TestAutomation.Models;
 
 namespace TestAutomation.Services
 {
-    public class TextsServices : ITextServices
+    public class ArticleServices : IArticleServices
     {
-        private readonly ITextRepository _textRepository;
+        private readonly IArticleRepository _articleRepository;
         private readonly ILog _log;
 
-        public TextsServices(ITextRepository textRepository, ILog log)
+        public ArticleServices(IArticleRepository articleRepository, ILog log)
         {
-            _textRepository = textRepository;
+            _articleRepository = articleRepository;
             _log = log;
         }
 
@@ -20,15 +20,15 @@ namespace TestAutomation.Services
             text?.Trim().ToUpper() ?? string.Empty;
 
         public async Task<Article> GetArticletAsync(int id) =>
-            await _textRepository.GetArticletAsync(id);
+            await _articleRepository.GetArticletAsync(id);
 
         public async Task<IEnumerable<Article>> ListArticlesAsync(string text = null) =>
-            await _textRepository.ListArticlesAsync(text);
+            await _articleRepository.ListArticlesAsync(text);
 
         public async Task<Article> AddArticleAsync(Article article)
         {
             await _log.WriteAsync(article.Text);
-            return await _textRepository.AddArticleAsync(article);
+            return await _articleRepository.AddArticleAsync(article);
         }
     }
 }
