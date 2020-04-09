@@ -12,12 +12,12 @@ using Xunit;
 
 namespace TAContract.Tests
 {
-    [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests")]
+    [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests"), Collection("ContractTest")]
     public class Texts_GET_Tests : IClassFixture<TestContractClassFixture>, IDisposable, IContractTest
     {
         private readonly TestContractClassFixture _consumerPactClassFixture;
         private const HttpVerb _httpVerb = HttpVerb.Get;
-        private string _path = $"/Texts/{DataSeed.GetFirstArticle().Id}";
+        private readonly string _path = $"/Texts/{DataSeed.GetFirstArticle().Id}";
         private readonly IPactBuilder _pactBuilder;
         private readonly IMockProviderService _mockProviderService;
         private bool _isDisposed;

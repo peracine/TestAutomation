@@ -12,7 +12,7 @@ using Xunit;
 
 namespace TAContract.Tests
 {
-    [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests")]
+    [TestCaseOrderer("TAContract.Tests.AlphabeticalOrderer", "TAContract.Tests"), Collection("ContractTest")]
     public class Texts_POST_Tests : IClassFixture<TestContractClassFixture>, IDisposable, IContractTest
     {
         private readonly TestContractClassFixture _consumerPactClassFixture;

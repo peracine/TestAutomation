@@ -10,7 +10,7 @@
     <table id="table"></table>
     <script>
         function search(q) {
-            fetch(`http://localhost:58979/text?q=${q}`)
+            fetch(`http://localhost:5000/texts?q=${q}`)
                 .then(response => {
                     if (response.ok) {
                         response.json()

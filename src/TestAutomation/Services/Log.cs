@@ -8,7 +8,7 @@ namespace TestAutomation.Services
     public class Log : ILog
     {
         private string LogFile =>
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"{DateTime.Today.ToString("yyyy-MM-dd")}.log");
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"{DateTime.Today:yyyy-MM-dd}.log");
 
         public async Task WriteAsync(string text)
         {
