@@ -18,4 +18,4 @@ The API uses the InMemory database provider and IIS Express for development purp
 + Chrome/Chromium must be installed in order to execute functional testing. The path must be specified in the TAFunctional.Tests/Configuration/configuration.json file.
 + Windows OS. If you use an another OS, please update the PactNet package (TAContract.tests) according to your machine (not tested).
 
-This solution has been writen with Visual Studio 2019 (version 16.5.3)
+This solution has been written with Visual Studio 2019 (version 16.5.3)
