@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TAIntegration.Tests", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TAContract.Tests", "test\TAContract\TAContract.Tests.csproj", "{D6C0761E-AD45-4A88-AAFE-B20EC5015BA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAFunctional.Tests", "test\TAFunctional.Tests\TAFunctional.Tests.csproj", "{CE17AF43-BC1D-416D-92E2-9EAF6C2B5A41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAFunctional.Tests", "test\TAFunctional\TAFunctional.Tests.csproj", "{CE17AF43-BC1D-416D-92E2-9EAF6C2B5A41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
