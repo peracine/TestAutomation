@@ -20,7 +20,7 @@ namespace TestAutomation.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> Get(int id)
         {
-            var article = await _articleServices.GetArticletAsync(id);
+            var article = await _articleServices.GetArticleAsync(id);
             if (article == null)
                 return NotFound();
 

@@ -1,5 +1,4 @@
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System;
 using Xunit;
@@ -19,7 +18,7 @@ namespace TAFunctional.Tests
         public void DefaultPage_Search_returnsArticles()
         {
             string q = "Lorem";
-            using var driver = new ChromeDriver(Configuration.DriverOptions as ChromeOptions);
+            using var driver = Configuration.WebDriver;
             driver.Navigate().GoToUrl(Configuration.GetPageUrl());
             driver.FindElement(By.Id("q")).SendKeys(q);
             driver.FindElement(By.Id("btnSearch")).Click();

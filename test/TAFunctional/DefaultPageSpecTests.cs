@@ -1,6 +1,5 @@
 ﻿using Machine.Specifications;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace TAFunctional.Tests
@@ -19,7 +18,7 @@ namespace TAFunctional.Tests
             {
                 _processId = Configuration.StartServices();
 
-                subject = new ChromeDriver(Configuration.DriverOptions as ChromeOptions);
+                subject = Configuration.WebDriver;
                 subject.Navigate().GoToUrl(Configuration.GetPageUrl());
                 subject.FindElement(By.Id("q")).SendKeys(q);
                 subject.FindElement(By.Id("btnSearch")).Click();

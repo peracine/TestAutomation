@@ -17,7 +17,7 @@ namespace TestAutomation.Data
             _context = context ?? throw new InvalidOperationException("context cannot be null.");
         }
 
-        public async Task<Article> GetArticletAsync(int id) =>
+        public async Task<Article> GetArticleAsync(int id) =>
             await _context.Articles.FindAsync(id).ConfigureAwait(false);
 
         public async Task<IEnumerable<Article>> ListArticlesAsync(string text = null) =>

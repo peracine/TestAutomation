@@ -7,7 +7,7 @@ namespace TestAutomation.Interfaces
     public interface IArticleServices
     {
         string Uppercase(string text);
-        Task<Article> GetArticletAsync(int id);
+        Task<Article> GetArticleAsync(int id);
         Task<IEnumerable<Article>> ListArticlesAsync(string text = null);
         Task<Article> AddArticleAsync(Article article);
     }

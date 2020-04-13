@@ -6,7 +6,7 @@ namespace TestAutomation.Interfaces
 {
     public interface IArticleRepository
     {
-        Task<Article> GetArticletAsync(int id);
+        Task<Article> GetArticleAsync(int id);
         Task<IEnumerable<Article>> ListArticlesAsync(string text = null);
         Task<Article> AddArticleAsync(Article article);
     }

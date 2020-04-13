@@ -19,8 +19,8 @@ namespace TestAutomation.Services
         public string Uppercase(string text) =>
             text?.Trim().ToUpper() ?? string.Empty;
 
-        public async Task<Article> GetArticletAsync(int id) =>
-            await _articleRepository.GetArticletAsync(id);
+        public async Task<Article> GetArticleAsync(int id) =>
+            await _articleRepository.GetArticleAsync(id);
 
         public async Task<IEnumerable<Article>> ListArticlesAsync(string text = null) =>
             await _articleRepository.ListArticlesAsync(text);
