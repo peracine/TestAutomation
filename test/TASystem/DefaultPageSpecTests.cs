@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace TAFunctional.Tests
+namespace TASystem.Tests
 {
     public class DefaultPageSpecTests
     {

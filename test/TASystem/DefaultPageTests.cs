@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using Xunit;
 
-namespace TAFunctional.Tests
+namespace TASystem.Tests
 {
     public class DefaultPageTests : IDisposable
     {

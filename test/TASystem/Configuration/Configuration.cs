@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace TAFunctional.Tests
+namespace TASystem.Tests
 {
     public static class Configuration
     {
