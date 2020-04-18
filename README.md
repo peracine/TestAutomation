@@ -3,7 +3,7 @@ Demo showing how to test a web application at different levels:
 + Unit testing (xUnit, MOQ).
 + Integration testing (xUnit, MOQ, Sqlite).
 + Contract testing (xUnit, Pact.Net).
-+ Functional testing (xUnit, Selenium, MSpec).
++ System testing (xUnit, Selenium, MSpec).
 
 ## Technical specifications
 + .Net Core 3.1 / C#.
