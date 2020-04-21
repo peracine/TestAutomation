@@ -7,7 +7,7 @@ using TAIntegration.Tests.TestDoubles;
 using TestAutomation;
 using TestAutomation.Interfaces;
 
-namespace TAIntegration.Tests.Configuration
+namespace TAIntegration.Tests
 {
     public class TestAutomationFactory<TStartup> : WebApplicationFactory<Startup> where TStartup : class
     {

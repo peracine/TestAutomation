@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Diagnostics;
@@ -11,13 +10,15 @@ namespace TASystem.Tests
     public static class Configuration
     {
         public static TimeSpan TimeOut { get => TimeSpan.FromSeconds(5); }
+
         public static RemoteWebDriver WebDriver
         {
-            get =>
-                new ChromeDriver(new ChromeOptions
-                {
-                    BinaryLocation = GetWebDriverApplication()
-                });
+            get
+            {
+                var chromeOptions = new ChromeOptions();
+                chromeOptions.AddArguments("headless");
+                return new ChromeDriver(chromeOptions);
+            }
         }
 
         public static string GetApplicationPath()
@@ -30,6 +31,10 @@ namespace TASystem.Tests
             return Directory.GetFiles(binDirectory, "TestAutomation.exe", SearchOption.AllDirectories).FirstOrDefault();
         }
 
+        /// <summary>
+        /// This page must be available in all environments requiring test.
+        /// </summary>
+        /// <returns></returns>
         public static string GetPageUrl() =>
             Path.Combine(Directory.GetCurrentDirectory().Split("test").First(), @"src\TestAutomation\Views\default.html");
 
@@ -46,17 +51,6 @@ namespace TASystem.Tests
             var applicationProcess = Process.GetProcessById(processId);
             try { applicationProcess.Kill(true); }
             catch { }
-        }
-
-        private static string GetWebDriverApplication()
-        {
-            string projectDirectory = Directory.GetCurrentDirectory()
-                .Split("bin", StringSplitOptions.RemoveEmptyEntries)
-                .First();
-    
-            return JObject
-                .Parse(File.ReadAllText(Path.Combine(projectDirectory, @"Configuration\configuration.json")))
-                .SelectToken("webDriverApplication").Value<string>();
         }
     }
 }

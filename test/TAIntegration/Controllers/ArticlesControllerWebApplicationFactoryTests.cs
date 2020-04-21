@@ -7,7 +7,6 @@ using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TAIntegration.Tests.Configuration;
 using TestAutomation;
 using TestAutomation.Data;
 using TestAutomation.Models;
